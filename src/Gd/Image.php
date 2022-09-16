@@ -160,6 +160,26 @@ final class Image extends AbstractImage implements InfoProvider
     /**
      * {@inheritdoc}
      *
+     * @see \Imagine\Image\ManipulatorInterface::crop()
+     */
+    final public function trim(float $threshold, int $background)
+    {
+        $cropped = \imagecropauto($this->resource, \IMG_CROP_THRESHOLD, $threshold, $background);
+
+        if (false !== $cropped) {
+            unset($image);
+        }
+
+        \imagedestroy($this->resource);
+
+        $this->resource = $cropped;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see \Imagine\Image\ManipulatorInterface::paste()
      */
     final public function paste(ImageInterface $image, PointInterface $start, $alpha = 100)
